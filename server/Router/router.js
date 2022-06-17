@@ -31,5 +31,19 @@ router.delete('/:id',async (req,res)=>{
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('no post in this id');
     await Todo.findByIdAndDelete(id);
     res.json({message:'success fully deleted'})
+});
+router.patch('/:id',async (req,res)=>{
+    console.log("hlel woeld")
+    const {id}  = req.params;
+    const updatedPost = req.body;
+    console.log(updatedPost,id)
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("no post in this id");
+    try {      
+     const updatedData = await Todo.findByIdAndUpdate(id,updatedPost,{ new: true })
+     res.json(updatedData)
+    } catch (error) {
+        console.log(error)
+    }
 })
+
 export default router
